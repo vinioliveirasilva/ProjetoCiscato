@@ -17,7 +17,8 @@ public class DataCisc1 {
     public static void main(String[] args) {
         // TODO code application logic here
         Data x = new Data();
-        x.setData("35/05/1995");
+        x.setData("01/01/1904");
+        long d = x.dataDias();
     }
     
 }
@@ -28,9 +29,11 @@ class Data
     static int formato = 0;
     static int termos[] = {0, 1, 2};  
     static char separador[] = {'.', '/', '-'};
+  
+    int diasMes[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     
         
-    public void setData(String data)
+    public boolean setData(String data)
     {
        for(int i = 0; i< 3; i++)
        {
@@ -49,7 +52,44 @@ class Data
             component[0] = Integer.parseInt(data.substring(8, 10));
         }
        
-       boolean consist = consistData();
+       return consistData();
+    }
+    
+    public long dataDias() {
+            
+        /* 
+        01/01/1900 
+        
+        dia0 = 01
+        mes0 = 01
+        ano0 = 1900
+        
+        01/01/1905
+        
+        dia1 = 01
+        mes1 = 01
+        ano1 = 1905
+        
+        dia = 01 - 01 = 0 + 1 = 1
+        mes = 01 - 01 = 0 + 1 = 1
+        ano = 1905 - 1900 = 5 = 5
+        
+        Dias = dias + mes * 
+        */
+        
+        int diasEntreDatas = 0;
+        
+        int Ano = component[2] - 1900;
+        int Mes = component[1];
+        int Dia = component[0];
+        
+        for(int i = 0; i < Ano; i++)
+        {
+            diasEntreDatas += (365 + bissexto(i+1900));
+        }
+        
+        return diasEntreDatas;
+        
     }
     
     private boolean consistData()
